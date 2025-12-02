@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://mainscene"]
+[gd_scene load_steps=7 format=3 uid="uid://mainscene"]
 
-[ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/Algorithm.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://player_sprite" path="res://assets/player.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://algo_sprite" path="res://assets/algorithm.png" id="4"]
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/Algorithm.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://player_sprite" path="res://assets/player.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://algo_sprite" path="res://assets/algorithm.png" id="5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(32, 32)
@@ -12,49 +13,52 @@ size = Vector2(32, 32)
 size = Vector2(24, 24)
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(400, 300)
-script = ExtResource("1")
+script = ExtResource("2")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
-texture = ExtResource("3")
+texture = ExtResource("4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("RectangleShape2D_player")
 
 [node name="Engagio" type="CharacterBody2D" parent="."]
 position = Vector2(200, 200)
-script = ExtResource("2")
+script = ExtResource("3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Engagio"]
-texture = ExtResource("4")
+texture = ExtResource("5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Engagio"]
 shape = SubResource("RectangleShape2D_algo")
 
 [node name="Reacho" type="CharacterBody2D" parent="."]
 position = Vector2(600, 200)
-script = ExtResource("2")
+script = ExtResource("3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Reacho"]
-texture = ExtResource("4")
+texture = ExtResource("5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Reacho"]
 shape = SubResource("RectangleShape2D_algo")
 
 [node name="Viralo" type="CharacterBody2D" parent="."]
 position = Vector2(400, 100)
-script = ExtResource("2")
+script = ExtResource("3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Viralo"]
-texture = ExtResource("4")
+texture = ExtResource("5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Viralo"]
 shape = SubResource("RectangleShape2D_algo")
 
 [node name="TrainingArea" type="Area2D" parent="."]
 position = Vector2(400, 500)
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TrainingArea"]
 shape = SubResource("RectangleShape2D_algo")
