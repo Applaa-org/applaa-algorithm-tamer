@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Tamer - Preview</title>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; background: #111; color: #fff; }
+        canvas { display: block; margin: 0 auto; border: 2px solid #333; }
+        #ui { position: absolute; top: 10px; left: 10px; }
+        button { margin: 5px; padding: 10px; background: #444; color: #fff; border: none; cursor: pointer; }
+        button:hover { background: #666; }
+    </style>
+</head>
+<body>
+    <div id="ui">
+        <div>Score: <span id="score">0</span></div>
+        <div>Caught: <span id="caught">0/3</span></div>
+        <button id="feed">Feed</button>
+        <button id="play">Play</button>
+        <button id="catch">Catch</button>
+    </div>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let score = 0;
+        let caught = 0;
+        let algorithms = [
+            { name: 'Engagio', x: 200, y: 200, dx: 1, dy: 1, caught: false },
+            { name: 'Reacho', x: 600, y: 200, dx: -1, dy: 1, caught: false },
+            { name: 'Viralo', x: 400, y: 100, dx: 1, dy: -1, caught: false }
+        ];
+        let player = { x: 400, y: 300, size: 20 };
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Draw player
+            ctx.fillStyle = '#0f0';
+            ctx.fillRect(player.x - player.size/2, player.y - player.size/2, player.size, player.size);
+            // Draw algorithms
+            algorithms.forEach(algo => {
+                if (!algo.caught) {
+                    ctx.fillStyle = '#f00';
+                    ctx.fillRect(algo.x - 10, algo.y - 10, 20, 20);
+                }
+            });
+        }
+
+        function update() {
+            algorithms.forEach(algo => {
+                if (!algo.caught) {
+                    algo.x += algo.dx * 2;
+                    algo.y += algo.dy * 2;
+                    if (algo.x < 0 || algo.x > canvas.width) algo.dx *= -1;
+                    if (algo.y < 0 || algo.y > canvas.height) algo.dy *= -1;
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'a') player.x -= 5;
+            if (e.key === 'd') player.x += 5;
+            if (e.key === 'w') player.y -= 5;
+            if (e.key === 's') player.y += 5;
+        });
+
+        document.getElementById('catch').addEventListener('click', () => {
+            algorithms.forEach(algo => {
+                if (!algo.caught && Math.abs(algo.x - player.x) < 30 && Math.abs(algo.y - player.y) < 30) {
+                    algo.caught = true;
+                    caught++;
+                    score += 50;
+                    updateUI();
+                }
+            });
+        });
+
+        document.getElementById('feed').addEventListener('click', () => {
+            if (caught > 0) score += 10;
+            updateUI();
+        });
+
+        document.getElementById('play').addEventListener('click', () => {
+            if (caught > 0) score += 20;
+            updateUI();
+        });
+
+        function updateUI() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('caught').textContent = caught + '/3';
+            if (caught === 3) {
+                alert('Victory! All algorithms caught and trained.');
+            }
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+        gameLoop();
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+{
+  "game": {
+    "name": "Algorithm Tamer",
+    "type": "2D",
+    "genre": "adventure | rpg",
+    "description": "A creature-training game where players catch wild Algorithms (Engagio, Reacho, Viralo) and train them to deliver better reach. Each algorithm has moods affected by user behavior."
+  },
+  "settings": {
+    "window": {
+      "width": 800,
+      "height": 600
+    },
+    "physics": {
+      "gravity": 980
+    }
+  },
+  "player": {
+    "name": "Trainer",
+    "health": 100,
+    "speed": 150,
+    "abilities": ["move", "interact", "catch"]
+  },
+  "entities": {
+    "algorithms": [
+      {
+        "name": "Engagio",
+        "mood": "neutral",
+        "reach": 0,
+        "max_reach": 100,
+        "behavior": "shy"
+      },
+      {
+        "name": "Reacho",
+        "mood": "neutral",
+        "reach": 0,
+        "max_reach": 100,
+        "behavior": "aggressive"
+      },
+      {
+        "name": "Viralo",
+        "mood": "neutral",
+        "reach": 0,
+        "max_reach": 100,
+        "behavior": "playful"
+      }
+    ],
+    "collectibles": [
+      {
+        "name": "Data Packet",
+        "value": 10
+      }
+    ]
+  },
+  "levels": [
+    {
+      "name": "Digital Forest",
+      "background": "circuit-themed forest",
+      "obstacles": ["data streams", "firewalls"]
+    }
+  ],
+  "logic": {
+    "winCondition": "train_all_algorithms_to_max_reach",
+    "loseCondition": "mood_drops_to_zero",
+    "scoring": {
+      "pointsPerCatch": 50,
+      "pointsPerTraining": 20,
+      "pointsPerReachIncrease": 5
+    }
+  }
+}
